@@ -67,20 +67,6 @@ namespace UserManagementAPI.Database
             context.Users.Add(user);
         }
 
-        public void UpdateUserUpdatedAt(User user)
-        {
-            string sql = "UPDATE Users SET UpdatedAt = CURRENT_TIMESTAMP WHERE Id = @Id;";
-            using (var connection = GetConnection())
-            {
-                connection.Open();
-                using (var command = new SqliteCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", user.Id);
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
         public void DeleteUser(User user)
         {
             context.Users.Remove(user);
