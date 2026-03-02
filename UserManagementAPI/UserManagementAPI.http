@@ -1,0 +1,23 @@
+@UserManagementAPI_HostAddress = http://localhost:5156
+
+GET {{UserManagementAPI_HostAddress}}/users/
+Accept: application/json
+
+###
+
+GET {{UserManagementAPI_HostAddress}}/users/{id}
+Accept: application/json
+
+###
+
+POST {{UserManagementAPI_HostAddress}}/users/
+
+###
+
+PUT {{UserManagementAPI_HostAddress}}/users/{id}
+
+###
+
+DELETE {{UserManagementAPI_HostAddress}}/users/{id}
+
+###
