@@ -20,15 +20,15 @@ namespace UserManagementAPI.Model
         public required string Email { get; set; }
         
         [Required]
-        public required DateTime DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         
         public DateTime CreatedAt { get; set; }
         
         public DateTime UpdatedAt { get; set; }
 
         //[Required]
-        //[StringLength(100)]
-        //public string Password { get; set; }
-        //public ICollection<UserRole> UserRoles { get; set; } // Navigation property for many-to-many relationship with Role
+        [StringLength(100)]
+        public string Password { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; } // Navigation property for many-to-many relationship with Role
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,18 @@ namespace TestProject1
     public class MockUserRepository : IUserRepository, IDisposable
     {
         private UserContext context;
-
+        private static UserManagementAPI.Model.User GetFakeUser()
+        {
+            return new UserManagementAPI.Model.User()
+            {
+                Id = new Guid(""),
+                Name = "John Doe",
+                Email = "J.D@gmail.com",
+                DateOfBirth = DateTime.Now.AddYears(-19),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+        }
         private static List<UserManagementAPI.Model.User> GetFakeUserList()
         {
             return new List<UserManagementAPI.Model.User>()
@@ -22,8 +34,8 @@ namespace TestProject1
                     Id = new Guid(),
                     Name = "John Doe",
                     Email = "J.D@gmail.com",
+                    DateOfBirth = DateTime.Now.AddYears(-30),
                     CreatedAt = DateTime.Now,
-                    DateOfBirth = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 },
                 new UserManagementAPI.Model.User
@@ -31,8 +43,8 @@ namespace TestProject1
                     Id = new Guid(),
                     Name = "Mark Luther",
                     Email = "M.L@gmail.com",
+                    DateOfBirth = DateTime.Now.AddYears(-40),
                     CreatedAt = DateTime.Now,
-                    DateOfBirth = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 }
             };
@@ -48,14 +60,9 @@ namespace TestProject1
             return (SqliteConnection)context.Database.GetDbConnection();
         }
 
-        public void DeleteUser(UserManagementAPI.Model.User user)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task DeleteUserAsync(UserManagementAPI.Model.User id)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         private bool disposed = false;
@@ -82,20 +89,26 @@ namespace TestProject1
         {
             var users = GetFakeUserList();
             return users;
-            //throw new NotImplementedException();
         }
 
-        public UserManagementAPI.Model.User GetUserByID(Guid userId)
+        public async Task<UserManagementAPI.Model.User> GetUserByIdAsync(Guid userId)
         {
-            return null;
-            //throw new NotImplementedException();
+            var user = GetFakeUser();
+            return user;
         }
 
-        public Task<UserManagementAPI.Model.User> GetUserByIdAsync(Guid userId)
+        public Task InsertUserAsync(UserManagementAPI.Model.User user)
         {
-            return null;
+            return Task.CompletedTask;
         }
-
+        public Task SaveAsync()
+        {
+            return Task.CompletedTask;
+        }
+        public Task UpdateUserAsync(UserManagementAPI.Model.User user)
+        {
+            return Task.CompletedTask;
+        }
         public IEnumerable<UserManagementAPI.Model.User> GetUsers()
         {
             throw new NotImplementedException();
@@ -106,17 +119,7 @@ namespace TestProject1
             throw new NotImplementedException();
         }
 
-        public Task InsertUserAsync(UserManagementAPI.Model.User user)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveAsync()
         {
             throw new NotImplementedException();
         }
@@ -126,9 +129,13 @@ namespace TestProject1
             throw new NotImplementedException();
         }
 
-        public Task UpdateUserAsync(UserManagementAPI.Model.User user)
+        public void DeleteUser(UserManagementAPI.Model.User user)
         {
             throw new NotImplementedException();
+        }
+        public UserManagementAPI.Model.User GetUserByID(Guid userId)
+        {
+            return null;
         }
     }
 }

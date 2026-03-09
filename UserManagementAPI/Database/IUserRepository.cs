@@ -5,11 +5,11 @@ namespace UserManagementAPI.Database
 {
     public interface IUserRepository : IDisposable
     {
-        Task<IEnumerable<User>> GetCompleteUsersAsync();
+        Task<IEnumerable<User>?> GetCompleteUsersAsync();
         Task DeleteUserAsync(User id);
         Task InsertUserAsync(User user);
         Task SaveAsync();
-        Task<User> GetUserByIdAsync(Guid userId);
+        Task<User?> GetUserByIdAsync(Guid userId);
         Task UpdateUserAsync(User user);
 
         IEnumerable<User> GetUsers();

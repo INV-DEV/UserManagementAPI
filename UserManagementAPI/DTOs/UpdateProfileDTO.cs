@@ -4,10 +4,9 @@ namespace UserManagementAPI.DTOs
 {
     public class UpdateProfileDTO
     {
-        [MaxLength(50, ErrorMessage = "First name must be less than or equal to 50 characters.")]
-        public string Firstname { get; set; }
-        [MaxLength(50, ErrorMessage = "Last name must be less than or equal to 50 characters.")]
-        public string Lastname { get; set; }
+        [MaxLength(100, ErrorMessage = "Name must be less than or equal to 100 characters.")]
+        public string Name { get; set; }
+
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         [MaxLength(100, ErrorMessage = "Email must be less than or equal to 100 characters.")]
         public string Email { get; set; }

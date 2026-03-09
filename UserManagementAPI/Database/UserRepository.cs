@@ -21,18 +21,18 @@ namespace UserManagementAPI.Database
             return (SqliteConnection) context.Database.GetDbConnection();
         }
 
-        public async Task<IEnumerable<User>> GetCompleteUsersAsync()
+        public async Task<IEnumerable<User>?> GetCompleteUsersAsync()
         {
             var result = await context.Users.ToListAsync();
             return result;
         }
 
-        public async Task DeleteUserAsync(User id)
+        public async Task DeleteUserAsync(User user)
         {
-            context.Users.Remove(id);
+            context.Users.Remove(user);
         }
 
-        public async Task<User> GetUserByIdAsync(Guid userId)
+        public async Task<User?> GetUserByIdAsync(Guid userId)
         {
             return await context.Users.FindAsync(userId);
         }

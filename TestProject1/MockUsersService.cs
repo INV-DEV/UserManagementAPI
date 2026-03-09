@@ -5,60 +5,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagementAPI.DTOs;
+using UserManagementAPI.Model;
 using UserManagementAPI.Services;
 
 namespace TestProject1
 {
     public class MockUsersService : IUsersService
     {
-        public ActionResult CreateNewUser(UserManagementAPI.Model.User user)
+        public User? _user = null;
+        public IEnumerable<User>? _users = null;
+
+        public async Task<User?> CreateNewUserAsync(UserManagementAPI.Model.User user)
         {
-            throw new NotImplementedException();
+            if (user != null) {
+                return user;
+            }
+            return null;
         }
 
-        public Task<ActionResult> CreateNewUserAsync(UserManagementAPI.Model.User user)
+        public async Task DeleteUserAsync(User user)
         {
-            throw new NotImplementedException();
         }
 
-        public ActionResult DeleteUser(Guid id)
+        public async Task<IEnumerable<User>?> GetAllUsersAsync(string? filterOn, string? filterQuery, string? sortBy, bool isAscending, int pageNumber, int pageSize, DateTime? dob)
         {
-            throw new NotImplementedException();
+            if (_users != null)
+            {
+                return _users;
+            }
+            return new List<User>();
         }
 
-        public Task<ActionResult> DeleteUserAsync(Guid id)
+        public async Task<UserManagementAPI.Model.User?> GetUserByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            if(_user != null)
+            {
+                return _user;
+            }
+            return null;
         }
 
-        public ActionResult<IEnumerable<UserManagementAPI.Model.User>> GetAllUsers(string? filterOn, string filterQuery, string? sortBy, bool isAscending, int pageNumber, int pageSize)
+        public async Task UpdateUserAsync(UserManagementAPI.Model.User updatedUser, User user)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<ActionResult<IEnumerable<GetAllUsersResponse>>> GetAllUsersAsync(string? filterOn, string? filterQuery, string? sortBy, bool isAscending, int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult<UserManagementAPI.Model.User> GetUserById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ActionResult<UserManagementAPI.Model.User>> GetUserByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult UpdateUser(UserManagementAPI.Model.User updatedUser, Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ActionResult> UpdateUserAsync(UserManagementAPI.Model.User updatedUser, Guid id)
-        {
-            throw new NotImplementedException();
+            if (user != null)
+            {
+            }
         }
     }
 }

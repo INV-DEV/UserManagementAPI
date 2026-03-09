@@ -4,11 +4,10 @@ namespace UserManagementAPI.DTOs
 {
     public class RegisterDTO
     {
-        [Required(ErrorMessage = "First name is required.")]
-        [MaxLength(50, ErrorMessage = "First name must be less than or equal to 50 characters.")]
-        public string Firstname { get; set; }
-        [MaxLength(50, ErrorMessage = "Last name must be less than or equal to 50 characters.")]
-        public string Lastname { get; set; }
+        [Required(ErrorMessage = "Name is required.")]
+        [MaxLength(100, ErrorMessage = "Name must be less than or equal to 100 characters.")]
+        public string Name { get; set; }
+
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         [MaxLength(100, ErrorMessage = "Email must be less than or equal to 100 characters.")]
