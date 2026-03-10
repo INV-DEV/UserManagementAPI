@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -21,12 +22,14 @@ namespace UserManagementAPI.Model
         
         [Required]
         public DateTime DateOfBirth { get; set; }
-        
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; }
         
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedAt { get; set; }
 
-        //[Required]
+        [Required]
         [StringLength(100)]
         public string Password { get; set; }
         public ICollection<UserRole> UserRoles { get; set; } // Navigation property for many-to-many relationship with Role

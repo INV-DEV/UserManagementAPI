@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserManagementAPI.Database;
 using UserManagementAPI.DTOs;
 using UserManagementAPI.Model;
 using UserManagementAPI.Services;
@@ -36,6 +37,11 @@ namespace TestProject1
             return new List<User>();
         }
 
+        public Task<IEnumerable<User?>?> GetAllUsersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<UserManagementAPI.Model.User?> GetUserByIdAsync(Guid id)
         {
             if(_user != null)
@@ -43,6 +49,12 @@ namespace TestProject1
                 return _user;
             }
             return null;
+        }
+
+        public UserContext GetUserContext()
+        {
+            return null;
+            //throw new NotImplementedException();
         }
 
         public async Task UpdateUserAsync(UserManagementAPI.Model.User updatedUser, User user)

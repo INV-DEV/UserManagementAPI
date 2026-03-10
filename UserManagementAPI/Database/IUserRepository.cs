@@ -5,6 +5,7 @@ namespace UserManagementAPI.Database
 {
     public interface IUserRepository : IDisposable
     {
+        UserContext GetUserContext();
         Task<IEnumerable<User>?> GetCompleteUsersAsync();
         Task DeleteUserAsync(User id);
         Task InsertUserAsync(User user);

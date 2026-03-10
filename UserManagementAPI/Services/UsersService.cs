@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
@@ -17,6 +18,11 @@ namespace UserManagementAPI.Services
         public UsersService(UserContext context)
         {
             _userRepository = new UserRepository(context);
+        }
+
+        public UserContext GetUserContext()
+        {
+            return _userRepository.GetUserContext();
         }
 
         #region Async
@@ -77,8 +83,8 @@ namespace UserManagementAPI.Services
 
         public async Task<User> CreateNewUserAsync(User user)
         {
-            user.CreatedAt = DateTime.Now;
-            user.UpdatedAt = DateTime.Now;
+            //user.CreatedAt = DateTime.Now;
+            //user.UpdatedAt = DateTime.Now;
             await _userRepository.InsertUserAsync(user);
             await _userRepository.SaveAsync();
             return user;
@@ -94,7 +100,8 @@ namespace UserManagementAPI.Services
             user.DateOfBirth = updatedUser.DateOfBirth;
             user.Name = updatedUser.Name;
             user.Email = updatedUser.Email;
-            user.UpdatedAt = DateTime.Now;
+            //user.Password = updatedUser.Password;
+            //user.UpdatedAt = DateTime.Now;
 
             await _userRepository.UpdateUserAsync(user);
             await _userRepository.SaveAsync();
@@ -140,5 +147,10 @@ namespace UserManagementAPI.Services
                     CreatedAt = user.CreatedAt,
                     UpdatedAt = user.UpdatedAt
                 };
+
+        public async Task<IEnumerable<User?>?> GetAllUsersAsync()
+        {
+            return await _userRepository.GetCompleteUsersAsync();
+        }
     }
 }

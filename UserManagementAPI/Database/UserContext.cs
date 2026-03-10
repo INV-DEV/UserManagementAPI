@@ -10,8 +10,6 @@ namespace UserManagementAPI.Database
 {
     public class UserContext : DbContext
     {
-        //public DbSet<User> Users { get; set; }
-
         // DbSet representing the Users table.
         public DbSet<User> Users { get; set; }
         // DbSet representing the Roles table.
@@ -63,7 +61,6 @@ namespace UserManagementAPI.Database
                 .HasDefaultValueSql("datetime('now')")
                 .ValueGeneratedOnAddOrUpdate()
                 .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Save);
-
             
             //base.OnModelCreating(modelBuilder);
             // Configure the UserRole entity as a join table for User and Role.

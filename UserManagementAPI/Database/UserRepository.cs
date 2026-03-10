@@ -16,6 +16,11 @@ namespace UserManagementAPI.Database
             this.context = context;
         }
 
+        public UserContext GetUserContext()
+        {
+            return this.context;
+        }
+
         public SqliteConnection GetConnection()
         {
             return (SqliteConnection) context.Database.GetDbConnection();

@@ -137,5 +137,10 @@ namespace TestProject1
         {
             return null;
         }
+
+        public UserContext GetUserContext()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

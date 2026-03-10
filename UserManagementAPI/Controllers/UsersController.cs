@@ -16,10 +16,12 @@ namespace UserManagementAPI.Controllers
         private readonly ILogger<UsersController> _logger;
         private readonly IUsersService _usersService;
         private UserContext _context;
+
         public UsersController(ILogger<UsersController> logger, IUsersService context)
         {
             _logger = logger;
             _usersService = context;
+            _context = context.GetUserContext();
         }
 
         /// <summary>
@@ -36,29 +38,21 @@ namespace UserManagementAPI.Controllers
                 return BadRequest(ModelState);
             }
             // Check if the email already exists.
-            var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email.ToLower() == registerDto.Email.ToLower());
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == registerDto.Email.ToLower());
+
             if (existingUser != null)
             {
                 return Conflict(new { message = "Email is already registered." });
             }
-            
+
             // Hash the password using BCrypt.
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
-
-            //// Create a new user entity.
-            //var newUser = new User
-            //{
-            //    Firstname = registerDto.Firstname,
-            //    Lastname = registerDto.Lastname,
-            //    Email = registerDto.Email,
-            //    Password = hashedPassword
-            //};
 
             // Create a new user entity.
             var newUser = new User
             {
-                //DateOfBirth = registerD
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 Name = registerDto.Name,
                 Email = registerDto.Email,
                 Password = hashedPassword
@@ -115,14 +109,6 @@ namespace UserManagementAPI.Controllers
                 Roles = user.UserRoles.Select(ur => ur.Role.Name).ToList()
             };
 
-            //var profile = new ProfileDTO
-            //{
-            //    Id = user.Id,
-            //    Email = user.Email,
-            //    Firstname = user.Firstname,
-            //    Lastname = user.Lastname,
-            //    Roles = user.UserRoles.Select(ur => ur.Role.Name).ToList()
-            //};
             return Ok(profile);
         }
 
@@ -160,16 +146,6 @@ namespace UserManagementAPI.Controllers
             {
                 user.Name = updateDto.Name;
             }
-            //// Update fields if provided.
-            //if (!string.IsNullOrEmpty(updateDto.Firstname))
-            //{
-            //    user.Firstname = updateDto.Firstname;
-            //}
-            //if (!string.IsNullOrEmpty(updateDto.Lastname))
-            //{
-            //    user.Lastname = updateDto.Lastname;
-            //}
-
 
             if (!string.IsNullOrEmpty(updateDto.Email))
             {
@@ -193,7 +169,6 @@ namespace UserManagementAPI.Controllers
             await _context.SaveChangesAsync();
             return Ok(new { message = "Profile updated successfully." });
         }
-    
 
         /// <summary>
         /// Get user by Id.
@@ -201,6 +176,7 @@ namespace UserManagementAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Authorize()]
         public async Task<ActionResult<UserModel>> GetUserById([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
@@ -233,6 +209,7 @@ namespace UserManagementAPI.Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<UserModel>?>?> GetAllUsers(
             string? filterOn = null,
             string? filterQuery = null,
@@ -275,6 +252,7 @@ namespace UserManagementAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost()]
+        [Authorize]
         public async Task<ActionResult> Post([FromBody] UserModel user)
         {
             if (!ModelState.IsValid)
@@ -328,6 +306,7 @@ namespace UserManagementAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult> Put([FromBody] UserModel updatedUser, [FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -365,6 +344,7 @@ namespace UserManagementAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
